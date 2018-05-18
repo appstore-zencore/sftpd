@@ -20,8 +20,7 @@ Usage
     Usage: sftpd [OPTIONS] COMMAND [ARGS]...
 
     Options:
-    -c, --config FILENAME  Config file path, use yaml format. Default to
-                            config.yaml.
+    -c, --config FILENAME  Config file path, use yaml format.
     --help                 Show this message and exit.
 
     Commands:
@@ -81,6 +80,7 @@ Note:
 1. sftpd.root defaults to os.getcwd().
 2. sftpd.keyfile defaults to ~/.ssh/id_rsa.
 3. You can use ssh-keygen to generate server key.
+4. sftpd.users defaults to users.yml, it is yaml format config file contains users and users' password.
 
 
 Example users

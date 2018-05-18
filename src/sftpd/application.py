@@ -11,7 +11,7 @@ def sftpd_loader(config):
     return data
 
 def main():
-    set_default_config_path("sftpd.yaml")
+    set_default_config_path("sftpd.yml")
     set_default_pidfile("sftpd.pid")
     set_config_loader(sftpd_loader)
     server()
