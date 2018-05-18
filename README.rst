@@ -28,6 +28,16 @@ Usage
     start   Start application server.
     stop    Stop application server.
 
+Example start
+-------------
+
+::
+
+    C:\Users\zencore\Documents\GitHub\sftpd\src>python -m sftpd.application start
+    2018-05-18 20:39:30,548 DEBUG   sftp server starting with config = {'application': {'daemon': False, 'main': 'sftpd.server.sftp_server'}, 'server': {'binding': '0.0.0.0', 'port': 2222, 'backlog': 32}, 'sftpd': {'root': 'e:/sftpd', 'keyfile': '~/.ssh/id_rsa', 'users': 'users.yml'}, 'logging': {'version': 1, 'disable_existing_loggers': False, 'formatters': {'simple': {'format': '%(asctime)-15s\t%(levelname)s\t%(message)s'}}, 'handlers': {'console': {'class': 'logging.StreamHandler', 'level': 'DEBUG', 'formatter': 'simple'}, 'file': {'class': 'logging.handlers.TimedRotatingFileHandler', 'level': 'DEBUG', 'formatter': 'simple', 'filename': 'server.log', 'backupCount': 30, 'when': 'D', 'interval': 1, 'encoding': 'utf-8'}}, 'loggers': {'sftpd': {'level': 'DEBUG', 'handlers': ['file', 'console'], 'propagate': False}}, 'root': {'level': 'DEBUG', 'handlers': ['file', 'console']}}}.
+    2018-05-18 20:39:30,548 DEBUG   sftp server start socket listening: binding=0.0.0.0, port=2222, backlog=32.
+    2018-05-18 20:39:30,564 DEBUG   sftp server wating connection...
+
 Example config
 --------------
 
@@ -35,12 +45,17 @@ Example config
 
     application:
         daemon: false
-        pidfile: sftpd.pid
+        main: sftpd.server.sftp_server
+
+    server:
+        binding: 0.0.0.0
+        port: 2222
+        backlog: 32
 
     sftpd:
-        root: /data/sftpd
-        keyfile: /path/to/server-key
-        users: /path/to/users.yml
+        root: e:/sftpd
+        keyfile: ~/.ssh/id_rsa
+        users: users.yml
 
     logging:
         version: 1

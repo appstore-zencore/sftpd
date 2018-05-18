@@ -7,7 +7,7 @@ from dictop import update
 
 def sftpd_loader(config):
     data = default_config_loader(config)
-    update(data, "application.main2", "sftpd.server.sftp_server")
+    update(data, "application.main", "sftpd.server.sftp_server")
     return data
 
 def main():
