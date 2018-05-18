@@ -10,6 +10,6 @@ install:
 script:
     - which sftpd
     - cd example
-    - nohup sftpd start >> /dev/null 2>&1 &
-    - sleep 1
+    - nohup sftpd start &
+    - sleep 2
     - kill -9 `cat sftpd.pid`

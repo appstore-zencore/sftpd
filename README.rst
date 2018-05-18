@@ -1,6 +1,9 @@
 sftpd
 =====
 
+.. image:: https://travis-ci.org/appstore-zencore/sftpd.svg?branch=master
+    :target: https://travis-ci.org/appstore-zencore/sftpd
+
 A simple multi-thread sftp server.
 
 Install
