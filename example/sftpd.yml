@@ -8,7 +8,7 @@ server:
     backlog: 32
 
 sftpd:
-    root: e:/sftpd
+    root: sftpd_root
     keyfile: ~/.ssh/id_rsa
     users: users.yml
 
@@ -27,7 +27,7 @@ logging:
             class: logging.handlers.TimedRotatingFileHandler
             level: DEBUG
             formatter: simple
-            filename: server.log
+            filename: sftpd.log
             backupCount: 30
             when: D
             interval: 1
