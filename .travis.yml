@@ -11,10 +11,9 @@ script:
     - which sftpd
     - cd example
     - sftpd start
-    - ls
-    - ps -ef
     - sleep 10
+    - ls
+    - cat sftpd.pid
+    - ps -ef
     - kill -9 `cat sftpd.pid`
-    - cat output.txt
     - cat sftpd.log
-
