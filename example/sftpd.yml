@@ -1,5 +1,5 @@
 application:
-    daemon: false
+    daemon: true
     pidfile: sftpd.pid
 
 server:
