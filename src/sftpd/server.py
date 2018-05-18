@@ -44,7 +44,7 @@ def sftp_server(config):
     def on_exit(sig, frame):
         stop_flag.set()
         msg = "Server got signal {sig}, set stop_flag=True and exiting...".format(sig=sig)
-        print(msg, file=os.sys.stderr)
+        click.echo(msg, file=os.sys.stderr)
         logger.info(msg)
     try:
         signal.signal(signal.SIGINT, on_exit)
