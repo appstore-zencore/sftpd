@@ -18,7 +18,7 @@ requires = [
 
 setup(
     name="sftpd",
-    version="0.1.0",
+    version="0.1.1",
     description="A simple multi-thread sftp server.",
     long_description=long_description,
     url="https://github.com/appstore-zencore/sftpd",

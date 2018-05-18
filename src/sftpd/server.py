@@ -56,6 +56,7 @@ def sftp_server(config):
     binding = select(config, "server.binding", "0.0.0.0")
     port = select(config, "server.port", 2022)
     backlog = select(config, "server.backlog", 1024)
+    accept_timeout = select(config, "server.accept-timeout", 2)
     logging.debug("sftp server start socket listening: binding={binding}, port={port}, backlog={backlog}.".format(
         binding=binding,
         port=port,
@@ -63,12 +64,17 @@ def sftp_server(config):
     ))
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, True)
+    server_socket.setblocking(False)
+    server_socket.settimeout(accept_timeout)
     server_socket.bind((binding, port))
     server_socket.listen(backlog)
 
+    logging.debug("sftp server wating connection...")
     while not stop_flag.is_set():
-        logging.debug("sftp server wating connection...")
-        remote_connection, remote_address = server_socket.accept()
+        try:
+            remote_connection, remote_address = server_socket.accept()
+        except socket.timeout:
+            continue
         logging.info("sftp server got a connection: {remote_address}.".format(remote_address=remote_address))
         service_thread = threading.Thread(target=sftp_service, args=(config, remote_connection, remote_address))
         service_thread.setDaemon(True)
