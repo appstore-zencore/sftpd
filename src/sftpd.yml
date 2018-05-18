@@ -1,0 +1,41 @@
+application:
+    daemon: false
+    main: sftpd.server.sftp_server
+
+sftpd:
+    root: e:/sftpd
+    keyfile: ~/.ssh/id_rsa
+    users: users.yml
+
+logging:
+    version: 1
+    disable_existing_loggers: false
+    formatters:
+        simple:
+            format: "%(asctime)-15s\t%(levelname)s\t%(message)s"
+    handlers:
+        console:
+            class: logging.StreamHandler
+            level: DEBUG
+            formatter: simple
+        file:
+            class: logging.handlers.TimedRotatingFileHandler
+            level: DEBUG
+            formatter: simple
+            filename: server.log
+            backupCount: 30
+            when: D
+            interval: 1
+            encoding: utf-8
+    loggers:
+        sftpd:
+            level: DEBUG
+            handlers:
+                - file
+                - console
+            propagate: no
+    root:
+        level: DEBUG
+        handlers:
+            - file
+            - console
