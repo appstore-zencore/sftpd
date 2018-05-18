@@ -61,8 +61,8 @@ Example config
 ::
 
     application:
-        daemon: false
-        main: sftpd.server.sftp_server
+        daemon: true
+        pidfile: sftpd.pid
 
     server:
         binding: 0.0.0.0

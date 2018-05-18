@@ -6,9 +6,10 @@ python:
     - "3.5"
     - "3.6"
 install:
-    - pip install -r requirements.txt
     - pip install .
-    - pip install nose
 script:
-    - ps2
-    - ps2.py
+    - which sftpd
+    - cd example
+    - nohup sftpd start >> /dev/null 2>&1 &
+    - sleep 1
+    - kill -9 `cat sftpd.pid`

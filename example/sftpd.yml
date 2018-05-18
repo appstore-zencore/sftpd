@@ -1,6 +1,6 @@
 application:
     daemon: false
-    main: sftpd.server.sftp_server
+    pidfile: sftpd.pid
 
 server:
     binding: 0.0.0.0
