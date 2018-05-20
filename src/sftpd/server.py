@@ -68,7 +68,7 @@ def sftp_server(config):
         transport = paramiko.Transport(remote_connection)
         transport.add_server_key(host_key)
         transport.set_subsystem_handler('sftp', paramiko.SFTPServer, StubSFTPServer)
-        server = StubServer(config)
-        transport.start_server(server=server)
+        transport.start_server(event=threading.Event(), server=StubServer(config))
+        logging.info("a new transport was started: {transport}.".format(transport=transport))
 
     logger.info("sftp server stopped.")
