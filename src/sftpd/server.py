@@ -17,19 +17,6 @@ stop_flag = threading.Event()
 logger = logging.getLogger(__name__)
 
 
-def sftp_service(config, connection, address):
-    keyfile = os.path.expandvars(os.path.expanduser(select(config, "sftpd.keyfile", "~/.ssh/id_rsa")))
-    host_key = paramiko.RSAKey.from_private_key_file(keyfile)
-    transport = paramiko.Transport(connection)
-    transport.add_server_key(host_key)
-    transport.set_subsystem_handler('sftp', paramiko.SFTPServer, StubSFTPServer)
-    server = StubServer(config)
-    transport.start_server(server=server)
-
-    channel = transport.accept()
-    while transport.is_active():
-        time.sleep(1)
-
 def sftp_server(config):
     # setup logging
     logging_config_data = select(config, "logging")
@@ -57,6 +44,7 @@ def sftp_server(config):
     port = select(config, "server.port", 2022)
     backlog = select(config, "server.backlog", 1024)
     accept_timeout = select(config, "server.accept-timeout", 2)
+    keyfile = os.path.expandvars(os.path.expanduser(select(config, "sftpd.keyfile", "~/.ssh/id_rsa")))
     logging.debug("sftp server start socket listening: binding={binding}, port={port}, backlog={backlog}.".format(
         binding=binding,
         port=port,
@@ -76,8 +64,11 @@ def sftp_server(config):
         except socket.timeout:
             continue
         logging.info("sftp server got a connection: {remote_address}.".format(remote_address=remote_address))
-        service_thread = threading.Thread(target=sftp_service, args=(config, remote_connection, remote_address))
-        service_thread.setDaemon(True)
-        service_thread.start()
+        host_key = paramiko.RSAKey.from_private_key_file(keyfile)
+        transport = paramiko.Transport(remote_connection)
+        transport.add_server_key(host_key)
+        transport.set_subsystem_handler('sftp', paramiko.SFTPServer, StubSFTPServer)
+        server = StubServer(config)
+        transport.start_server(server=server)
 
     logger.info("sftp server stopped.")
